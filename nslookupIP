@@ -1,0 +1,46 @@
+import socket
+
+# Update file path to reflect your source file.
+
+file = "D:/ips.txt"
+
+
+# Function to verify IP address format.
+
+def isIP(address):
+    try:
+
+        socket.inet_aton(address)
+
+        ip = True
+
+    except socket.error:
+
+        ip = False
+
+    return ip
+
+
+# Open the file to read, pass to variable then close.
+
+f = open(file, 'r')
+
+lines = f.readlines()
+
+f.close()
+
+# Lookup each ip in turn.
+
+for i in lines:
+
+    ipAd = i.strip()
+    if isIP(ipAd):
+        try:
+
+            host = socket.gethostbyaddr(ipAd)
+            print("%s - %s" % (host[0], ipAd))
+
+        except  socket.error:
+            print("%s - No host  found." % (ipAd))
+    else:
+        print("%s - No host  found." % (ipAd))
